@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТуТуТ</title>
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="ТуТуТ" class="logo-img logo-img-light">
+                <img src="images/logo-dark.svg" alt="ТуТуТ" class="logo-img logo-img-dark">
+            </a>
+            <nav id="headerNav">
+                <a href="index.html" class="active">Главная</a>
+                <a href="search.html">Квартиры</a>
+                <div id="authButtons"></div>
+            </nav>
+            <div class="header-right">
+                <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+                    <img src="images/moon.png" alt="Тема" class="theme-icon-moon">
+                    <img src="images/sun.png" alt="Тема" class="theme-icon-sun">
+                </button>
+                <button class="burger" id="burgerBtn" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Планируйте поездку, начиная с адреса</h1>
+                    <p>Проверенные квартиры и апартаменты в Оренбурге — уютное жильё для вашего комфортного пребывания</p>
+                </div>
+                <div class="hero-image">
+                    <img src="images/tusovka.jpg" alt="Оренбург">
+                </div>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="container">
+                <div class="search-card">
+                    <form class="search-form" id="searchForm">
+                        <div>
+                            <label>Город</label>
+                            <select id="citySelect">
+                                <option value="Оренбург">Оренбург</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Заезд</label>
+                            <select id="checkinSelect">
+                                <option value="">Выберите дату</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Выезд</label>
+                            <select id="checkoutSelect">
+                                <option value="">Выберите дату</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Найти</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function initTheme() {
+            var t = localStorage.getItem('theme');
+            if (t === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else if (t === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.hasAttribute('data-theme')) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function toggleMenu() {
+            document.getElementById('headerNav').classList.toggle('open');
+            document.getElementById('burgerBtn').classList.toggle('open');
+        }
+
+        var months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
+                     'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        
+        for (var m = 0; m < 12; m++) {
+            for (var d = 1; d <= daysInMonth[m]; d++) {
+                var date = '2026-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+                var label = d + ' ' + months[m] + ' 2026';
+                
+                var opt1 = document.createElement('option');
+                opt1.value = date;
+                opt1.text = label;
+                checkinSelect.appendChild(opt1);
+                
+                var opt2 = document.createElement('option');
+                opt2.value = date;
+                opt2.text = label;
+                checkoutSelect.appendChild(opt2);
+            }
+        }
+
+        initTheme();
+    </script>
+</body>
+</html>
